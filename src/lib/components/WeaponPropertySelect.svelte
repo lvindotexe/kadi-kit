@@ -1,9 +1,12 @@
 <script lang="ts">
-	import { select, remove } from '$lib/stores/search';
+	import type { SearchStore } from '$lib/stores/search';
 	import type {
 		NonRecordWeaponLiteProperties,
 		WeaponRecordPropertyDefinition
 	} from '$lib/types/weaponTypes';
+	import { getContext } from 'svelte';
+
+	const { select, remove } = getContext<SearchStore>('search');
 
 	export let propertyDefinitions: WeaponRecordPropertyDefinition<NonRecordWeaponLiteProperties>;
 	export let name: string;
@@ -21,6 +24,7 @@
 					{
 						const { target } = e;
 						if (!(target instanceof HTMLInputElement)) return;
+						//@ts-expect-error
 						if (target.checked) select(propertyName, hash, filterImplementation);
 						else remove(propertyName, hash);
 					}

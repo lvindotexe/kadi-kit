@@ -1,13 +1,11 @@
 <script lang="ts">
 	import WeaponIcon from '$lib/components/weapons/WeaponIcon.svelte';
-	import { previous } from '$lib/stores/previous';
-	import { filteredWeapons, searchInput, searching } from '$lib/stores/search';
+	import type { SearchStore } from '$lib/stores/search';
+	import { getContext } from 'svelte';
 	import VirtualList from 'svelte-tiny-virtual-list';
-	import { derived } from 'svelte/store';
 
-	const pain = derived(searchInput, ($input) => ({ value: $input, length: $input.length }));
-	const prev = previous(derived(searchInput, ($i) => ({ length: $i.length, value: $i })));
-	// const prev = previous(searchInput);
+	const { searchInput, filteredWeapons, searching } = getContext<SearchStore>('search');
+
 	$: listHeight = 64 * $filteredWeapons.length;
 	$: maxheight = listHeight > 500 ? 500 : listHeight;
 	$filteredWeapons;

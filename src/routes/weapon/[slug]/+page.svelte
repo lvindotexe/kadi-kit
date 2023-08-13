@@ -26,5 +26,5 @@
 			<PerkColumn perkColumn={{ ...column, column: i }} />
 		{/each}
 	</div>
-		<Stats />
+	<Stats />
 </main>

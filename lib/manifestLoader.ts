@@ -258,13 +258,16 @@ export function loadManifest() {
 				liteWeapons.push(result);
 				transformedWeapons.push(transformedWeapon);
 			}
-			return [
-				//@ts-expect-error slutty types >~<
-				categorisedItems.set('version', manifestTables.get('version')),
-				new Map()
+			return (
+				new Map([...categorisedItems])
+					//@ts-expect-error slutty types
+					.set('version', manifestTables.get('version'))
+					//@ts-expect-error slutty types
 					.set('WeaponsLite', liteWeapons)
+					//@ts-expect-error slutty types
 					.set('Weapons', transformedWeapons)
+					//@ts-expect-error slutty types
 					.set('WeaponCategoryStatGroupMap', weaponCategoryStatGroupMap)
-			] as const;
+			);
 		});
 }
