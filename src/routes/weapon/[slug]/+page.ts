@@ -10,8 +10,8 @@ export const load: PageLoad = async ({ params }) => {
 	const { slug } = params;
 	let weapon: Weapon | undefined;
 	if (browser) {
-		weapon = await get<Weapon[]>('Weapons').then((weapons) =>
-			weapons?.find((e) => e.hash === Number(slug))
+		weapon = await get<Weapon[]>('Weapons').then(
+			(weapons) => weapons?.find((e) => e.hash === Number(slug))
 		);
 	} else {
 		weapon = await fs

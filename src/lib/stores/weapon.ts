@@ -34,16 +34,17 @@ export function useWeapon(w: Weapon) {
 	function setBanner(banner: string) {
 		const weaponValue = get(weapon);
 		const defaultBanner = weaponValue ? weaponValue.screenshot : undefined;
-		weapon.update((prev) =>
-			prev ? { ...prev, screenshot: banner === prev.screenshot ? defaultBanner! : banner } : prev
-		);
+		weapon.update((prev) => ({
+			...prev,
+			screenshot: banner === prev.screenshot ? defaultBanner! : banner
+		}));
 	}
 
 	function selectPerk(trait: Trait, column: number) {
 		selectedPerks.update((prev) => {
 			if (prev.get(column)?.hash === trait.hash) prev.delete(column);
 			else prev.set(column, trait);
-			return new Map([...prev]);
+			return prev;
 		});
 	}
 
@@ -51,9 +52,9 @@ export function useWeapon(w: Weapon) {
 		selectedSockets.update((prev) => {
 			if (prev.get(socketType)?.hash === plug.hash) prev.delete(socketType);
 			else prev.set(socketType, plug);
-			return new Map([...prev]);
+			return prev;
 		});
 	}
 
-	return { setBanner, selectPerk, selectSockets, stats, selectedPerks: readonly(selectedSockets) };
+	return { setBanner, selectPerk, selectSockets, stats, selectedPerks };
 }

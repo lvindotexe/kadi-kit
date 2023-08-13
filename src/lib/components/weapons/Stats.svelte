@@ -1,26 +1,32 @@
 <script lang="ts">
-	import type { Weapon } from '$lib/types/weaponTypes';
+	import type { WeaponStore } from '$lib/stores/weapon';
 	import type { InterpolationPoint } from 'bungie-api-ts/common';
+	import { getContext } from 'svelte';
+	
+	const {stats} = getContext<WeaponStore>('weapon')
+	
 
-	export let entry: Entries<Weapon['investmentStats']>;
-	const [hash, { name, statTypeHash, value, description, displayInterpolation }] = entry;
-
-	function getActualStatValue(value: number, interpolationPoints: Array<InterpolationPoint>) {
-		const index = interpolationPoints.reduce((acc, curr, index, array) => {
-			return Math.abs(value - array[index].value) <= Math.abs(value - array[acc].value)
+	function valueWithInterpolation<T extends {displayInterpolation:InterpolationPoint[],value:number}>(investmentStat:T) {
+		const index = investmentStat.displayInterpolation.reduce((acc, curr, index, array) => {
+			return Math.abs(investmentStat.value - array[index].value) <= Math.abs(investmentStat.value - array[acc].value)
 				? index
 				: acc;
 		}, 0);
-		return interpolationPoints[index].weight;
+		return investmentStat.displayInterpolation[index].weight;
 	}
-	console.log(entry, hash === '1240592695');
-	if (hash === '1240592695') console.log(value);
 
-	const actualValue =
-		displayInterpolation.length > 2 ? getActualStatValue(value, displayInterpolation) : value;
+	function statValue<T extends {value:number,displayInterpolation:InterpolationPoint[]}>(investmentStat:T){
+		const value = investmentStat.displayInterpolation.length > 2 ? valueWithInterpolation(investmentStat) : investmentStat.value
+		return value > 100 ? 100 : value
+	}
+
 </script>
+<ul>
+{#each $stats as [,{name,...rest}] }
+	<li>
+		{name}
+		<progress value={statValue(rest)} max={100} />
+	</li>
+{/each}
+</ul>
 
-<div>
-	{name}
-	<progress value={actualValue > 100 ? 100 : actualValue} max={100} />
-</div>

@@ -9,10 +9,8 @@
 	export let data: PageData;
 	const { weapon } = data;
 	const { perks } = weapon;
-	const weaponStore = useWeapon(weapon);
-	setContext('weapon', weaponStore);
-	const { stats } = weaponStore;
-	$: console.log([...$stats.entries()].filter(([k]) => k === '1240592695').map(([k,v]) => v.value));
+	setContext('weapon', useWeapon(weapon));
+	// $: console.log([...$stats.entries()].filter(([k]) => k === '1240592695').map(([k,v]) => v.value));
 </script>
 
 <main class="text-white">
@@ -28,7 +26,5 @@
 			<PerkColumn perkColumn={{ ...column, column: i }} />
 		{/each}
 	</div>
-	{#each $stats as entry}
-		<Stats {entry} />
-	{/each}
+		<Stats />
 </main>
