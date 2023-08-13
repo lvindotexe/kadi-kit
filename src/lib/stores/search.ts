@@ -21,6 +21,11 @@ const filters = derived(selectedPropertiesStore, ($selectedPropertiesStore) => {
 });
 export const weapons = writable<WeaponLite[]>([]);
 
+
+export const searching = derived([searchInput,selectedPropertiesStore],([$searchInput,$selectedpropertiesStore]) => {
+	return $searchInput.length > 0 || [...$selectedpropertiesStore.values()].flatMap(({hashes}) => hashes).length > 0
+})
+
 export function select(name: string, hash: number, filter: FilterImplementation<keyof WeaponLite>) {
 	selectedPropertiesStore.update((prev) => {
 		const oldValues = prev.get(name);
@@ -43,9 +48,13 @@ export function remove(name: string, hash: number) {
 export const filteredWeapons = derived(
 	[weapons, searchInput, filters],
 	([$weapons, $searchInput, $filters]) => {
-		const weapons = $weapons.filter((e) =>
-			e.name.toLowerCase().includes($searchInput.toLowerCase())
-		);
-		return $filters.length > 0 ? weapons.filter((e) => $filters.every((f) => f(e))) : weapons;
+		const hasFilters = $filters.length > 0;
+		if (!hasFilters && $searchInput.length < 1) return [];
+		return hasFilters
+			? $weapons.filter(
+					(e) =>
+						$filters.every((f) => f(e)) && e.name.toLowerCase().includes($searchInput.toLowerCase())
+			  )
+			: $weapons.filter(e => e.name.toLowerCase().includes($searchInput.toLowerCase()));
 	}
 );

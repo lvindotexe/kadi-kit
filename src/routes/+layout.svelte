@@ -61,13 +61,11 @@
 </script>
 
 <QueryClientProvider client={queryClient}>
-	<main class="relative">
-		{#if $cacheState.state === 'loading'}
-			loading
-		{:else if $cacheState.state === 'done'}
-			<slot />
-		{:else if $cacheState.state === 'error'}
-			error
-		{/if}
-	</main>
+	{#if $cacheState.state === 'loading'}
+		loading
+	{:else if $cacheState.state === 'done'}
+		<slot />
+	{:else if $cacheState.state === 'error'}
+		error
+	{/if}
 </QueryClientProvider>
