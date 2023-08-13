@@ -39,12 +39,9 @@
 	"type": "module",
 	"dependencies": {
 		"@melt-ui/svelte": "^0.34.6",
-		"@square/svelte-store": "^1.0.17",
-		"@tanstack/svelte-query": "^4.32.6",
 		"bungie-api-ts": "^5.0.0",
 		"idb-keyval": "^6.2.1",
 		"lucide-svelte": "^0.266.0",
-		"svelte-previous": "^2.1.4",
 		"svelte-tiny-virtual-list": "^2.0.5"
 	}
 }
