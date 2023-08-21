@@ -10,7 +10,6 @@
 	const { weapon } = data;
 	const { perks } = weapon;
 	setContext('weapon', useWeapon(weapon));
-	// $: console.log([...$stats.entries()].filter(([k]) => k === '1240592695').map(([k,v]) => v.value));
 </script>
 
 <main class="text-white">

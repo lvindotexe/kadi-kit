@@ -8,10 +8,6 @@
 	setContext('search', useSearch(weapons!));
 </script>
 
-<main class="grid place-items-center w-full h-full">
-	<div class="w-full h-full relative">
-		<div class="absolute top-[20%] left-0 right-0 m-auto grid place-items-center">
-			<Searchbar />
-		</div>
-	</div>
+<main class="grid place-items-center w-full h-full relative">
+	<Searchbar />
 </main>

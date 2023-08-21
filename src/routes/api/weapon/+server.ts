@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { Weapon } from '../../../types/weaponTypes.js';
+import type { Weapon } from '$lib/types/weaponTypes.js';
 
 export const GET = async ({ url }) => {
 	const hash = url.searchParams.get('hash');
